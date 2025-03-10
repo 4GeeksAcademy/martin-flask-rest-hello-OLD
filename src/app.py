@@ -102,8 +102,10 @@ def add_planet():
     return "planet created"
 @app.route('/user/favorites', methods=['GET'])
 def get_user_favorites():
-    favorite_chars = FavoritePeople.query.all()
-    favorite_planets = FavoritePlanet.query.all()
+    first_user = User.query.first()
+    user_id = first_user.id
+    favorite_chars = FavoritePeople.query.filter_by(user_id=user_id)
+    favorite_planets = FavoritePlanet.query.filter_by(user_id= user_id)
     char_fav_list = list(map(lambda fav: fav.serialize(),favorite_chars))
     planet_fav_list = list(map(lambda fav: fav.serialize(),favorite_planets))
     
